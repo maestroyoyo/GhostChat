@@ -9,11 +9,14 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
+	"unicode"
 
 	"ghostchat/internal/crypto"
 
+	"github.com/charmbracelet/x/ansi"
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/libp2p/go-libp2p/core/host"
@@ -229,8 +232,25 @@ func readData(stream network.Stream) {
 			IncomingMessages <- "[-] Paquete corrupto o clave incorrecta bloqueado."
 			continue
 		}
-		IncomingMessages <- string(decrypted)
+		IncomingMessages <- sanitizeRemoteMessage(string(decrypted))
 	}
+}
+
+// sanitizeRemoteMessage impide que un peer remoto envíe secuencias de control
+// al emulador de terminal. Los saltos y tabuladores se convierten en espacios
+// para que un mensaje no pueda fabricar líneas adicionales en la interfaz.
+func sanitizeRemoteMessage(message string) string {
+	message = ansi.Strip(message)
+	return strings.Map(func(r rune) rune {
+		switch r {
+		case '\n', '\r', '\t':
+			return ' '
+		}
+		if unicode.IsControl(r) || unicode.Is(unicode.Cf, r) {
+			return -1
+		}
+		return r
+	}, message)
 }
 
 // SendMessage cifra y difunde el texto a todos los peers conectados
