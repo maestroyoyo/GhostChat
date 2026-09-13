@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"ghostchat/internal/crypto"
+	"github.com/maestroyoyo/ghostchat/internal/crypto"
 
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"

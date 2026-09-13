@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"ghostchat/internal/network"
+	"github.com/maestroyoyo/ghostchat/internal/network"
 
 	tea "github.com/charmbracelet/bubbletea"
 )

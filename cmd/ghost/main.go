@@ -1,6 +1,6 @@
 package main
 
-import "ghostchat/internal/ui"
+import "github.com/maestroyoyo/ghostchat/internal/ui"
 
 func main() {
 	ui.Start()

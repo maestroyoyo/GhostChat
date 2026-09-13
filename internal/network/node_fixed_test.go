@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"ghostchat/internal/crypto"
+	"github.com/maestroyoyo/ghostchat/internal/crypto"
 
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p/core/network"

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"ghostchat/internal/network"
+	"github.com/maestroyoyo/ghostchat/internal/network"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"

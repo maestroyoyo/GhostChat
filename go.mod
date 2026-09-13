@@ -1,4 +1,4 @@
-module ghostchat
+module github.com/maestroyoyo/ghostchat
 
 go 1.27.1
 
