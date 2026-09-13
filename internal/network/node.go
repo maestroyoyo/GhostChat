@@ -35,7 +35,7 @@ var (
 )
 
 const (
-	protocolID       = "/ghostchat/2.0.0"
+	protocolID       = "/ghostchat/3.0.0"
 	maxMsgSize       = 64 << 20 // 64 MB: límite de mensaje por seguridad
 	discoverInterval = 20 * time.Second
 )
@@ -50,6 +50,7 @@ func GenerateSecureInvite() string {
 // ConnectToRoomWithInvite inicia la red, anuncia la sala y la busca de forma continua
 func ConnectToRoomWithInvite(inviteCode string) error {
 	roomKey = crypto.DeriveKey(inviteCode)
+	discoveryTopic := crypto.DeriveDiscoveryTopic(inviteCode)
 
 	// Candidatos a relay: los bootstrap públicos de IPFS/libp2p,
 	// que suelen correr el servicio de circuito v2. El subsistema
@@ -107,9 +108,9 @@ func ConnectToRoomWithInvite(inviteCode string) error {
 
 	// Anunciar la sala en la DHT
 	routingDiscovery := routing.NewRoutingDiscovery(kDHT)
-	util.Advertise(ctx, routingDiscovery, inviteCode)
+	util.Advertise(ctx, routingDiscovery, discoveryTopic)
 
-	go discoverLoop(ctx, routingDiscovery, inviteCode)
+	go discoverLoop(ctx, routingDiscovery, discoveryTopic)
 
 	return nil
 }
